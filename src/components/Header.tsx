@@ -1,26 +1,33 @@
 'use client';
 
 import Link from 'next/link';
+import { useCartStore } from '@/store/cartStore';
+import { ShoppingCart } from 'lucide-react';
 
 export default function Header() {
+  const { cart } = useCartStore();
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
   return (
-    <header className="w-full bg-white shadow-md">
-      <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold text-gray-800">
-          Shoppy
+    <header className="sticky top-0 z-50 bg-white shadow-sm border-b">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <Link href="/" className="text-xl font-bold tracking-tight">
+          🛒 Shoppy
         </Link>
-        <ul className="flex space-x-6 text-gray-600 font-medium">
-          <li>
-            <Link href="/" className="hover:text-black transition">Home</Link>
-          </li>
-          <li>
-            <Link href="/cart" className="hover:text-black transition">Cart</Link>
-          </li>
-          <li>
-            <Link href="/checkout" className="hover:text-black transition">Checkout</Link>
-          </li>
-        </ul>
-      </nav>
+
+        <nav className="flex items-center gap-6 text-sm font-medium">
+          <Link href="/">Home</Link>
+          <Link href="/checkout">Checkout</Link>
+          <Link href="/cart" className="relative flex items-center">
+            <ShoppingCart className="w-5 h-5" />
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+        </nav>
+      </div>
     </header>
   );
 }
