@@ -2,18 +2,16 @@
 
 import { products } from '@/data/products';
 import { useCartStore } from '@/store/cartStore';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
-type Props = {
-  params: { id: string };
-};
-
-export default function ProductDetailPage({ params }: Props) {
-  const product = products.find((p) => p.slug === params.id);
+export default function ProductDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
+  const product = products.find((p) => p.slug === id);
   const [quantity, setQuantity] = useState(1);
 
   if (!product) return notFound();

@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function CartPage() {
   const router = useRouter();
-  const { cart, updateQuantity, removeFromCart, clearCart } = useCartStore();
+  const { cart, updateQuantity, clearCart } = useCartStore();
 
   const productTotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
